@@ -19,3 +19,17 @@ if __name__ == "__main__":
     raw_data = get_music_trends()
     report = analyze_with_ai(raw_data)
     print(report)
+    import openai
+
+def analyze_trend(music_data):
+    # 这是 Agent 的核心逻辑：把抓取的数据丢给 LLM
+    prompt = f"分析以下亚洲音乐榜单数据，总结出一个核心趋势，并找出潜在的爆款歌曲：{music_data}"
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[{"role": "system", "content": "你是一位专业的亚洲音乐趋势分析师。"},
+                  {"role": "user", "content": prompt}]
+    )
+    return response.choices[0].message.content
+
+# 现在你的 main.py 调用这个函数，它就有了“思考”能力
